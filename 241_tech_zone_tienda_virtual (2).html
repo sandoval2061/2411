@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-900 text-slate-100 scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>241 Tech Zone - Tienda de Tecnología </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 2s infinite alternate',
+                        'marquee': 'marquee 25s linear infinite',
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%': { boxShadow: '0 0 15px rgba(99, 102, 241, 0.4)' },
+                            '100%': { boxShadow: '0 0 30px rgba(236, 72, 153, 0.7)' }
+                        },
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-50%)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printableReceiptArea, #printableReceiptArea * {
+                visibility: visible;
+            }
+            #printableReceiptArea {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                background: white !important;
+                color: black !important;
+                padding: 20px;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-full font-sans antialiased bg-slate-900 text-slate-100 selection:bg-indigo-500 selection:text-white">
+
+    <!-- Marquesina Informativa -->
+    <div class="bg-gradient-to-r from-indigo-900 via-purple-900 to-pink-900 border-b border-indigo-500/30 text-xs font-semibold text-white py-1.5 overflow-hidden relative z-40">
+        <div class="flex whitespace-nowrap animate-marquee">
+            <span class="mx-6 flex items-center gap-1.5"><i data-lucide="zap" class="w-3.5 h-3.5 text-yellow-400 fill-yellow-400"></i> ¡DESCUENTOS EN DISPOSITIVOS REDMI Y SELECCIONADOS!</span>
+            <span class="mx-6 flex items-center gap-1.5"><i data-lucide="truck" class="w-3.5 h-3.5 text-emerald-400"></i> ENVÍO GRATIS EN COMPRAS MAYORES A $150</span>
+            <span class="mx-6 flex items-center gap-1.5"><i data-lucide="shield-check" class="w-3.5 h-3.5 text-indigo-300"></i> GARANTÍA OFICIAL Y SOPORTE 24/7 EN 241 TECH ZONE</span>
+            <span class="mx-6 flex items-center gap-1.5"><i data-lucide="zap" class="w-3.5 h-3.5 text-yellow-400 fill-yellow-400"></i> ¡DESCUENTOS EN DISPOSITIVOS REDMI Y SELECCIONADOS!</span>
+            <span class="mx-6 flex items-center gap-1.5"><i data-lucide="truck" class="w-3.5 h-3.5 text-emerald-400"></i> ENVÍO GRATIS EN COMPRAS MAYORES A $150</span>
+        </div>
+    </div>
+
+    <!-- Header Principal -->
+    <header class="sticky top-0 z-30 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20 gap-4">
+                
+                <!-- Logo -->
+                <a href="#inicio" onclick="filterCategory('all')" class="flex items-center gap-3 group focus:outline-none">
+                    <div class="relative flex items-center justify-center p-2 rounded-2xl bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform duration-300">
+                        <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" class="stroke-indigo-200" />
+                            <path d="M7 12l3 3l7 -7" class="stroke-emerald-300" stroke-width="2.5" />
+                            <circle cx="12" cy="12" r="3" class="stroke-pink-200" />
+                            <path d="M12 2v3M12 19v3M2 12h3M19 12h3" class="stroke-indigo-300" />
+                        </svg>
+                        <span class="absolute -bottom-1 -right-1 flex h-3 w-3">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-3 w-3 bg-pink-500"></span>
+                        </span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 bg-clip-text text-transparent group-hover:from-indigo-300 group-hover:to-pink-300">
+                            241 Tech Zone
+                        </span>
+                        <span class="text-[10px] tracking-widest font-semibold uppercase text-indigo-400 -mt-1">
+                            Innovación & Futuro
+                        </span>
+                    </div>
+                </a>
+
+                <!-- Menú Desktop -->
+                <nav class="hidden lg:flex items-center gap-1 bg-slate-800/60 p-1.5 rounded-2xl border border-slate-700/60 text-sm font-medium">
+                    <a href="#inicio" onclick="setActiveNav('nav-inicio')" id="nav-inicio" class="nav-item px-3.5 py-1.5 rounded-xl text-indigo-400 bg-slate-700/70 shadow-sm transition-all">Inicio</a>
+                    <a href="#ofertas" onclick="setActiveNav('nav-ofertas')" id="nav-ofertas" class="nav-item px-3.5 py-1.5 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800 transition-all">Carrusel Ofertas</a>
+                    <a href="#catalogo" onclick="setActiveNav('nav-catalogo')" id="nav-catalogo" class="nav-item px-3.5 py-1.5 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800 transition-all">Catálogo</a>
+                    <a href="#video-seccion" onclick="setActiveNav('nav-video')" id="nav-video" class="nav-item px-3.5 py-1.5 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800 transition-all">Video Promocional</a>
+                    <a href="#nosotros" onclick="setActiveNav('nav-nosotros')" id="nav-nosotros" class="nav-item px-3.5 py-1.5 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800 transition-all">Nosotros</a>
+                </nav>
+
+                <!-- Buscador Desktop -->
+                <div class="hidden md:flex flex-1 max-w-xs relative">
+                    <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Buscar productos..." 
+                        class="w-full bg-slate-800 text-slate-200 text-sm rounded-xl pl-10 pr-4 py-2 border border-slate-700 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all placeholder-slate-400">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5"></i>
+                </div>
+
+                <!-- Acciones del Usuario -->
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <button onclick="toggleRegisterModal(true)" class="flex items-center gap-2 text-sm font-medium text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700/80 px-3.5 py-2 rounded-xl border border-slate-700 transition-all">
+                        <i data-lucide="user" class="w-4 h-4 text-indigo-400"></i>
+                        <span class="hidden sm:inline" id="userAccountText">Registrarse</span>
+                    </button>
+
+                    <button onclick="toggleCartDrawer(true)" class="relative flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white px-4 py-2 rounded-xl font-semibold shadow-lg shadow-indigo-600/25 transition-all active:scale-95">
+                        <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                        <span class="hidden sm:inline">Carrito</span>
+                        <span id="cartBadge" class="absolute -top-2 -right-2 bg-pink-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-slate-900 hidden animate-bounce">
+                            0
+                        </span>
+                    </button>
+
+                    <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-xl text-slate-300 hover:text-white bg-slate-800 border border-slate-700 focus:outline-none">
+                        <i data-lucide="menu" id="menuIcon" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Menú Desplegable Móvil -->
+            <div id="mobileMenu" class="hidden lg:hidden border-t border-slate-800 py-4 px-2 space-y-2">
+                <a href="#inicio" onclick="toggleMobileMenu(); setActiveNav('nav-inicio')" class="block px-4 py-2.5 rounded-xl text-slate-200 hover:bg-slate-800 font-medium">Inicio</a>
+                <a href="#ofertas" onclick="toggleMobileMenu(); setActiveNav('nav-ofertas')" class="block px-4 py-2.5 rounded-xl text-slate-200 hover:bg-slate-800 font-medium">Carrusel Ofertas</a>
+                <a href="#catalogo" onclick="toggleMobileMenu(); setActiveNav('nav-catalogo')" class="block px-4 py-2.5 rounded-xl text-slate-200 hover:bg-slate-800 font-medium">Catálogo Completo</a>
+                <a href="#video-seccion" onclick="toggleMobileMenu(); setActiveNav('nav-video')" class="block px-4 py-2.5 rounded-xl text-slate-200 hover:bg-slate-800 font-medium">Video Promocional</a>
+                <a href="#nosotros" onclick="toggleMobileMenu(); setActiveNav('nav-nosotros')" class="block px-4 py-2.5 rounded-xl text-slate-200 hover:bg-slate-800 font-medium">Nosotros</a>
+                <div class="pt-2">
+                    <div class="relative">
+                        <input type="text" id="searchInputMobile" oninput="handleSearchMobile()" placeholder="Buscar productos..." 
+                            class="w-full bg-slate-800 text-slate-200 text-sm rounded-xl pl-10 pr-4 py-2 border border-slate-700 focus:outline-none focus:border-indigo-500">
+                        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Banner Principal (Hero Section) -->
+    <section id="inicio" class="relative overflow-hidden bg-gradient-to-b from-slate-900 via-indigo-950/50 to-slate-900 border-b border-slate-800/80 py-16 sm:py-24">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-600/15 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="absolute bottom-0 right-10 w-80 h-80 bg-pink-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-8">
+            <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold bg-gradient-to-r from-indigo-500/20 via-purple-500/20 to-pink-500/20 text-indigo-300 border border-indigo-500/30 shadow-lg backdrop-blur-md">
+                <i data-lucide="sparkles" class="w-4 h-4 text-pink-400 animate-pulse"></i> Tienda Oficial Tech 2026
+            </span>
+            
+            <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white leading-tight">
+                Tecnología de Vanguardia en <br class="hidden sm:inline" />
+                <span class="bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 bg-clip-text text-transparent">241 Tech Zone</span>
+            </h1>
+
+            <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+                Descubre los mejores dispositivos del mercado con garantía oficial, entregas rápidas y ofertas exclusivas en productos seleccionados y la gama <strong class="text-pink-400 font-bold">Redmi</strong>.
+            </p>
+
+            <div class="flex flex-wrap items-center justify-center gap-4 pt-2">
+                <a href="#ofertas" class="bg-gradient-to-r from-pink-600 to-indigo-600 hover:from-pink-500 hover:to-indigo-500 text-white font-bold px-8 py-3.5 rounded-2xl shadow-xl shadow-pink-600/25 hover:scale-105 transition-all flex items-center gap-2 text-sm">
+                    <i data-lucide="flame" class="w-4 h-4 text-yellow-300"></i> Ver Ofertas Especiales
+                </a>
+                <a href="#catalogo" class="bg-slate-800 hover:bg-slate-700/80 border border-slate-700 text-slate-200 font-bold px-7 py-3.5 rounded-2xl shadow-md hover:scale-105 transition-all flex items-center gap-2 text-sm">
+                    <i data-lucide="grid" class="w-4 h-4 text-indigo-400"></i> Explorar Catálogo Completo
+                </a>
+            </div>
+
+            <!-- Badges destacables de la tienda -->
+            <div class="pt-8 grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-3xl mx-auto border-t border-slate-800/80">
+                <div class="p-3 rounded-2xl bg-slate-800/40 border border-slate-700/40 flex items-center justify-center gap-2.5 text-xs font-semibold text-slate-300">
+                    <i data-lucide="truck" class="w-4 h-4 text-emerald-400"></i> Envío Exprés Rastreable
+                </div>
+                <div class="p-3 rounded-2xl bg-slate-800/40 border border-slate-700/40 flex items-center justify-center gap-2.5 text-xs font-semibold text-slate-300">
+                    <i data-lucide="shield-check" class="w-4 h-4 text-indigo-400"></i> Garantía Oficial 241
+                </div>
+                <div class="p-3 rounded-2xl bg-slate-800/40 border border-slate-700/40 col-span-2 sm:col-span-1 flex items-center justify-center gap-2.5 text-xs font-semibold text-slate-300">
+                    <i data-lucide="headphones" class="w-4 h-4 text-pink-400"></i> Soporte Especializado
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Carrusel de Ofertas Destacadas (Ubicado debajo del banner principal) -->
+    <section id="ofertas" class="py-12 sm:py-16 bg-slate-900 border-b border-slate-800/80 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Encabezado de la Sección del Carrusel -->
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+                <div>
+                    <span class="bg-gradient-to-r from-pink-500 to-indigo-600 text-white text-xs font-extrabold uppercase px-3.5 py-1 rounded-full tracking-wider inline-flex items-center gap-1.5 shadow-md shadow-pink-500/20 mb-2">
+                        <i data-lucide="flame" class="w-3.5 h-3.5 text-yellow-300"></i> Ofertas Destacadas
+                    </span>
+                    <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+                        Dispositivos en Promoción Exclusiva
+                    </h2>
+                    <p class="text-slate-400 text-xs sm:text-sm mt-1">
+                        Aprovecha precios rebajados en nuestra selección especial y todos los equipos Redmi.
+                    </p>
+                </div>
+
+                <!-- Botones de Navegación del Carrusel -->
+                <div class="flex items-center gap-2 self-start sm:self-auto">
+                    <button onclick="prevOfferSlide()" aria-label="Anterior oferta" class="p-3 rounded-2xl bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white transition-all border border-slate-700 hover:border-indigo-500 active:scale-95 shadow-md">
+                        <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                    </button>
+                    <button onclick="nextOfferSlide()" aria-label="Siguiente oferta" class="p-3 rounded-2xl bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white transition-all border border-slate-700 hover:border-indigo-500 active:scale-95 shadow-md">
+                        <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Contenedor / Marco del Carrusel -->
+            <div class="relative bg-gradient-to-br from-slate-800/90 via-slate-900 to-indigo-950/60 border-2 border-indigo-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl overflow-hidden group hover:border-indigo-500/60 transition-all">
+                
+                <div class="relative overflow-hidden min-h-[320px] rounded-2xl flex items-center">
+                    <div id="offerCarouselTrack" class="w-full flex transition-transform duration-500 ease-in-out">
+                        <!-- Las diapositivas se renderizan dinámicamente con JS -->
+                    </div>
+                </div>
+
+                <!-- Indicadores del Carrusel -->
+                <div id="carouselDots" class="flex justify-center items-center gap-2 mt-6">
+                    <!-- Puntos indicadores generados por JS -->
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Sección de Video Promocional -->
+    <section id="video-seccion" class="py-16 bg-slate-950 border-b border-slate-800 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-10 space-y-3">
+                <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20">
+                    <i data-lucide="video" class="w-4 h-4"></i> Experiencia 241 Tech Zone
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
+                    Conoce Nuestra Tienda y Productos Estrella
+                </h2>
+                <p class="text-slate-400 text-sm sm:text-base">
+                    Mira la presentación sobre las ofertas exclusivas y la calidad de los dispositivos tecnológicos que disponemos para ti.
+                </p>
+            </div>
+
+            <div class="max-w-4xl mx-auto bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl relative group">
+                <div class="relative aspect-video bg-black flex items-center justify-center overflow-hidden">
+                    <video id="promoVideo" controls poster="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80" class="w-full h-full object-cover">
+                        <source src="c:\Users\moran\Downloads\241 tech\WhatsApp Video 2026-10-07 at 9.44.42 AM.mp4" type="video/mp4">
+                        
+                    </video>
+                </div>
+                <div class="p-6 bg-slate-900/90 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="p-3 bg-indigo-600/20 rounded-2xl text-indigo-400">
+                            <i data-lucide="film" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white text-base">Video Demostrativo 2026</h4>
+                           
+                        </div>
+                    </div>
+                    <a href="#catalogo" class="whitespace-nowrap px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl text-sm transition-all shadow-md shadow-indigo-600/20">
+                        Ver Catálogo en Tienda
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Catálogo de Productos -->
+    <main id="catalogo" class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+        
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+            <div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Catálogo de Productos</h2>
+                <p class="text-slate-400 text-sm mt-1">Explora nuestras 5 categorías principales con especificaciones premium.</p>
+            </div>
+
+            <!-- Filtros por Categoría -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0" id="categoryButtons">
+                <!-- Generado dinámicamente con JS -->
+            </div>
+        </div>
+
+        <!-- Grid de Productos -->
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Productos renderizados dinámicamente con JS -->
+        </div>
+
+        <!-- Mensaje de Búsqueda Vacía -->
+        <div id="noResults" class="hidden text-center py-20 bg-slate-800/40 rounded-3xl border border-slate-800 my-6">
+            <div class="inline-flex p-4 rounded-full bg-slate-800 text-slate-400 mb-4">
+                <i data-lucide="package-search" class="w-10 h-10"></i>
+            </div>
+            <h3 class="text-lg font-bold text-slate-200">No se encontraron productos</h3>
+            <p class="text-slate-400 text-sm mt-1">Intenta ajustando tu búsqueda o seleccionando otra categoría.</p>
+        </div>
+    </main>
+
+    <!-- Sección Nosotros -->
+    <section id="nosotros" class="py-16 bg-slate-950/80 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-3">
+                    <div class="w-12 h-12 bg-indigo-600/20 text-indigo-400 rounded-xl flex items-center justify-center mx-auto">
+                        <i data-lucide="shield-check" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">Garantía Extendida</h3>
+                    <p class="text-slate-400 text-xs sm:text-sm">Todos nuestros dispositivos cuentan con soporte y garantía oficial de hasta 2 años.</p>
+                </div>
+                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-3">
+                    <div class="w-12 h-12 bg-pink-600/20 text-pink-400 rounded-xl flex items-center justify-center mx-auto">
+                        <i data-lucide="truck" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">Envíos Rápidos y Seguros</h3>
+                    <p class="text-slate-400 text-xs sm:text-sm">Entregas exprés rastreables directo a la puerta de tu domicilio en 24 a 48 horas.</p>
+                </div>
+                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-3">
+                    <div class="w-12 h-12 bg-emerald-600/20 text-emerald-400 rounded-xl flex items-center justify-center mx-auto">
+                        <i data-lucide="headphones" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">Atención Personalizada</h3>
+                    <p class="text-slate-400 text-xs sm:text-sm">Asesoría especializada para resolver tus dudas antes, durante y después de tu compra.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800 text-slate-400 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col sm:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-indigo-600 rounded-xl text-white">
+                    <i data-lucide="cpu" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <span class="font-bold text-slate-200 block text-base">241 Tech Zone</span>
+                    <span class="text-xs text-slate-500">&copy; 2026 Todos los derechos reservados.</span>
+                </div>
+            </div>
+            <p class="text-xs text-slate-500 text-center sm:text-right max-w-md">
+                Plataforma e-commerce interactiva de demostración tecnológica con carrusel de productos en oferta y recibo de compra digital.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Drawer del Carrito -->
+    <div id="cartDrawer" class="fixed inset-0 z-50 overflow-hidden hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+        <div id="cartOverlay" onclick="toggleCartDrawer(false)" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm transition-opacity opacity-0 ease-in-out duration-300"></div>
+
+        <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+            <div id="cartPanel" class="w-screen max-w-md bg-slate-900 border-l border-slate-800 shadow-2xl flex flex-col transform translate-x-full transition-transform ease-in-out duration-300">
+                
+                <div class="p-4 sm:p-6 border-b border-slate-800 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="shopping-bag" class="w-5 h-5 text-indigo-400"></i>
+                        <h2 class="text-lg font-bold text-slate-100">Tu Carrito de Compras</h2>
+                    </div>
+                    <button onclick="toggleCartDrawer(false)" class="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors">
+                        <i data-lucide="x" class="w-6 h-6"></i>
+                    </button>
+                </div>
+
+                <div class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4" id="cartItemsContainer">
+                    <!-- Items cargados dinámicamente -->
+                </div>
+
+                <div class="p-4 sm:p-6 border-t border-slate-800 bg-slate-950/60 space-y-3">
+                    <div class="flex justify-between text-sm text-slate-400">
+                        <span>Subtotal</span>
+                        <span id="cartSubtotal" class="font-medium text-slate-200">$0.00</span>
+                    </div>
+                    <div class="flex justify-between text-sm text-slate-400">
+                        <span>Impuestos IVA (13%)</span>
+                        <span id="cartTax" class="font-medium text-slate-200">$0.00</span>
+                    </div>
+                    <div class="flex justify-between text-base font-bold text-slate-100 pt-2 border-t border-slate-800">
+                        <span>Total Final</span>
+                        <span id="cartTotal" class="text-indigo-400 text-lg">$0.00</span>
+                    </div>
+
+                    <button onclick="checkout()" class="w-full mt-4 bg-gradient-to-r from-indigo-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-indigo-600/30 transition-all flex items-center justify-center gap-2 active:scale-95">
+                        <i data-lucide="file-text" class="w-5 h-5"></i>
+                        <span>Finalizar Compra y Ver Recibo</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Registro -->
+    <div id="registerModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+        <div onclick="toggleRegisterModal(false)" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
+
+        <div class="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-6 sm:p-8 z-10 my-8 overflow-y-auto max-h-[90vh]">
+            <button onclick="toggleRegisterModal(false)" class="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-lg">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <div class="mb-6">
+                <h3 class="text-2xl font-black text-white flex items-center gap-2">
+                    <i data-lucide="user-plus" class="text-indigo-400 w-6 h-6"></i> Registro de Cliente
+                </h3>
+                <p class="text-slate-400 text-sm mt-1">Crea tu cuenta para gestionar tus compras y generar tu comprobante.</p>
+            </div>
+
+            <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Nombre Completo</label>
+                    <input type="text" id="regName" required placeholder="Ej. Carlos Mendoza" 
+                        class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-indigo-500">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Correo Electrónico</label>
+                        <input type="email" id="regEmail" required placeholder="carlos@ejemplo.com" 
+                            class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Teléfono</label>
+                        <input type="tel" id="regPhone" required placeholder="+503 7000-0000" 
+                            class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-indigo-500">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Contraseña</label>
+                        <input type="password" id="regPass" required minlength="6" placeholder="******" 
+                            class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Confirmar Contraseña</label>
+                        <input type="password" id="regPassConfirm" required minlength="6" placeholder="******" 
+                            class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-indigo-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Dirección de Envío</label>
+                    <textarea id="regAddress" rows="2" required placeholder="Av. Principal #123, Colonia Escalón..." 
+                        class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-indigo-500 resize-none"></textarea>
+                </div>
+
+                <div id="registerError" class="hidden text-red-400 text-xs bg-red-500/10 border border-red-500/20 p-3 rounded-xl"></div>
+
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl shadow-lg shadow-indigo-600/30 transition-all">
+                    Completar Registro
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal del Recibo -->
+    <div id="receiptModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden overflow-y-auto">
+        <div onclick="closeReceiptModal()" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md"></div>
+
+        <div class="relative w-full max-w-2xl bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl p-6 sm:p-8 z-10 my-8">
+            <button onclick="closeReceiptModal()" class="no-print absolute top-4 right-4 text-slate-400 hover:text-white p-2 rounded-xl bg-slate-800 border border-slate-700">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <!-- Área Imprimible -->
+            <div id="printableReceiptArea" class="space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center border-b border-slate-800 pb-5 gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2.5 bg-indigo-600 text-white rounded-2xl">
+                            <i data-lucide="check-circle-2" class="w-7 h-7"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-black text-white">Comprobante de Compra</h3>
+                            <p class="text-xs text-indigo-400 font-semibold">241 Tech Zone - Tienda Oficial</p>
+                        </div>
+                    </div>
+                    <div class="text-left sm:text-right">
+                        <span id="receiptInvoiceNo" class="text-sm font-mono font-bold text-pink-400 block">#INV-000000</span>
+                        <span id="receiptDate" class="text-xs text-slate-400 block">00/00/2026 - 00:00</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-slate-800/60 rounded-2xl border border-slate-700/60 text-xs">
+                    <div>
+                        <span class="text-slate-400 block font-semibold uppercase mb-1">Cliente Registrado:</span>
+                        <p id="receiptClientName" class="font-bold text-slate-100 text-sm">-</p>
+                        <p id="receiptClientEmail" class="text-slate-300">-</p>
+                        <p id="receiptClientPhone" class="text-slate-300">-</p>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block font-semibold uppercase mb-1">Dirección de Envío:</span>
+                        <p id="receiptClientAddress" class="text-slate-200 leading-relaxed">-</p>
+                        <span class="inline-block mt-2 text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-bold uppercase">Estado: Pago Confirmado</span>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Detalle de Productos</h4>
+                    <div class="border border-slate-800 rounded-2xl overflow-hidden">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-slate-800 text-slate-300 font-semibold border-b border-slate-700">
+                                <tr>
+                                    <th class="p-3">Producto</th>
+                                    <th class="p-3 text-center">Cant.</th>
+                                    <th class="p-3 text-right">Precio U.</th>
+                                    <th class="p-3 text-right">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody id="receiptTableBody" class="divide-y divide-slate-800 text-slate-200">
+                                <!-- Filas de recibo dinámicas -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-end space-y-1.5 text-xs pt-2">
+                    <div class="flex justify-between w-48 text-slate-400">
+                        <span>Subtotal:</span>
+                        <span id="receiptSubtotal" class="font-medium text-slate-200">$0.00</span>
+                    </div>
+                    <div class="flex justify-between w-48 text-slate-400">
+                        <span>IVA (13%):</span>
+                        <span id="receiptTax" class="font-medium text-slate-200">$0.00</span>
+                    </div>
+                    <div class="flex justify-between w-48 text-base font-extrabold text-white pt-2 border-t border-slate-700">
+                        <span>Total Pagado:</span>
+                        <span id="receiptTotal" class="text-indigo-400">$0.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="no-print mt-8 flex flex-col sm:flex-row gap-3">
+                <button onclick="window.print()" class="flex-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm">
+                    <i data-lucide="printer" class="w-4 h-4"></i> Imprimir Recibo
+                </button>
+                <button onclick="closeReceiptModal()" class="flex-1 bg-gradient-to-r from-indigo-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 text-white font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm">
+                    <i data-lucide="shopping-bag" class="w-4 h-4"></i> Aceptar y Nueva Compra
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 flex items-center gap-3 bg-slate-800 border border-indigo-500/40 text-slate-100 px-5 py-3.5 rounded-2xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <i id="toastIcon" data-lucide="check-circle" class="w-5 h-5 text-indigo-400"></i>
+        <span id="toastMsg" class="text-sm font-semibold"></span>
+    </div>
+
+    <!-- Script Principal -->
+    <script>
+        // DATOS DE PRODUCTOS - CON IDENTIFICACIÓN AUTOMÁTICA DE OFERTAS REDMI
+        const products = [
+            // --- LAPTOPS ---
+            {
+                id: 1,
+                name: "MacBook Neo",
+                category: "laptops",
+                price: 600.00,
+                originalPrice: 600.00,
+                onSale: false,
+                description: "Una laptop equilibrada perfecta para estudiar con excelente autonomía.",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTytIfrE_eT_G6T3Go12CaRargJy2QM2XfslnjwXTsWSJwmKEl1giVrlSU&s=10"
+            },
+            {
+                id: 2,
+                name: "Dell XPS 15 OLED",
+                category: "laptops",
+                price: 1699.99,
+                originalPrice: 1899.99,
+                onSale: true,
+                discountBadge: "10% OFF",
+                description: "Pantalla táctil 3.5K OLED, procesador Intel i9 y diseño ultrafino.",
+                image: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80"
+            },
+            {
+                id: 3,
+                name: "Lenovo Legion Pro 5",
+                category: "laptops",
+                price: 1450.00,
+                originalPrice: 1450.00,
+                onSale: false,
+                description: "Laptop gamer de alto rendimiento con gráfica RTX 4070 y pantalla de 165Hz.",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZzrXep8AywpWhvCNdxl5CBClGEuAuICG_1YP08A5GKg&s=10"
+            },
+            {
+                id: 4,
+                name: "ASUS ZenBook 14",
+                category: "laptops",
+                price: 980.00,
+                originalPrice: 980.00,
+                onSale: false,
+                description: "Diseño ultraligero de aluminio, procesador Ryzen 7 y batería de larga duración.",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRK5t63Hw0DX4vlilw8KrwgEUvqKOkv7hh1DcFCMmeB-g&s=10"
+            },
+            {
+                id: 5,
+                name: "HP Pavilion 15",
+                category: "laptops",
+                price: 720.00,
+                originalPrice: 720.00,
+                onSale: false,
+                description: "Procesador Intel i5, 16GB RAM y almacenamiento rápido SSD para oficina.",
+                image: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=500&q=80"
+            },
+
+            // --- SMARTPHONES ---
+            {
+                id: 6,
+                name: "Samsung Galaxy A15",
+                category: "smartphones",
+                price: 399.00,
+                originalPrice: 399.00,
+                onSale: false,
+                description: "Equilibrado, pantalla Super AMOLED y gran autonomía de batería.",
+                image: "https://www.radioshackla.com/media/catalog/product/8/8/8806095454085_2_.jpg?optimize=medium&bg-color=255,255,255&fit=bounds&height=700&width=700&canvas=700:700"
+            },
+            {
+                id: 7,
+                name: "Huawei Mate 80",
+                category: "smartphones",
+                price: 700.00,
+                originalPrice: 700.00,
+                onSale: false,
+                description: "Cámaras excelentes de grado profesional potenciadas con Harmony OS.",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGpqVnV4AqZEmESGhMAJ8gePNZMHl1vFibDZM5t-0yvm2tY7h--niECm2v&s=10"
+            },
+            {
+                id: 8,
+                name: "iPhone 15 Pro",
+                category: "smartphones",
+                price: 999.00,
+                originalPrice: 999.00,
+                onSale: false,
+                description: "Chasis de titanio, chip A17 Pro y sistema avanzado de triple cámara.",
+                image: "https://www.radioshackla.com/media/catalog/product/4/6/464433400019_2.jpg?optimize=medium&bg-color=255,255,255&fit=bounds&height=700&width=700&canvas=700:700"
+            },
+            {
+                id: 9,
+                name: "Xiaomi 13T Pro",
+                category: "smartphones",
+                price: 650.00,
+                originalPrice: 650.00,
+                onSale: false,
+                description: "Lentes Leica, carga ultrarrápida de 120W y pantalla AMOLED de 144Hz.",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmCLPaS9RRj_szktf0n9IQHH1hREY5OWHCIx1a-ZVBbQ&s=10"
+            },
+            {
+                id: 10,
+                name: "Google Pixel 8",
+                category: "smartphones",
+                price: 699.00,
+                originalPrice: 699.00,
+                onSale: false,
+                description: "Fotografía computacional de nivel superior impulsada por el chip Tensor G3.",
+                image: "https://m.media-amazon.com/images/I/81Mya-dPIOL._AC_SX679_.jpg"
+            },
+
+            // --- AUDÍFONOS ---
+            {
+                id: 11,
+                name: "Redmi Buds 6",
+                category: "audifonos",
+                price: 35.00,
+                originalPrice: 49.00,
+                onSale: true,
+                discountBadge: "28% OFF",
+                description: "Cancelación de ruido eficaz y sonido claro con graves mejorados.",
+                image: "https://sutoasv.com/wp-content/uploads/2025/05/AUDIFONOS-XIAOMI-BUDS-6-BLANCO-11-SUTOA-EL-SALVADOR.webp"
+            },
+            {
+                id: 12,
+                name: "Sony WH-1000XM5",
+                category: "audifonos",
+                price: 380.00,
+                originalPrice: 380.00,
+                onSale: false,
+                description: "Cancelación de ruido líder en la industria con audio Hi-Res y ajuste cómodo.",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbiEkzF0wH0tTmMOumfajGs_T9gKJVAD1JK_ZHH4a3Ow&s=10"
+            },
+            {
+                id: 13,
+                name: "AirPods Pro 2",
+                category: "audifonos",
+                price: 249.00,
+                originalPrice: 249.00,
+                onSale: false,
+                description: "Audio espacial personalizado, cancelación de ruido activa y estuche USB-C.",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzs9IKnarqzyX8m_TauE_ga93-3No-0-SOMQlghWpBVQ&s=10"
+            },
+            {
+                id: 14,
+                name: "JBL Tune 760NC",
+                category: "audifonos",
+                price: 89.00,
+                originalPrice: 89.00,
+                onSale: false,
+                description: "Sonido JBL Pure Bass con autonomía de hasta 35 horas y diseño plegable.",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGvniIXxl5_p1LcqQcL6nORc5IiK5uSbSDI8-GiAzvKA&s=10"
+            },
+            {
+                id: 15,
+                name: "Sennheiser HD 450BT",
+                category: "audifonos",
+                price: 130.00,
+                originalPrice: 130.00,
+                onSale: false,
+                description: "Excelente acústica inalámbrica con soporte de códecs AAC y AptX Low Latency.",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtuzb0-CHF2s3zMiZRe6z5XhKW7OFdhrMOx8v-mdYLaQ&s=10"
+            },
+
+            // --- SMARTWATCHES ---
+            {
+                id: 16,
+                name: "Redmi Watch 6",
+                category: "smartwatch",
+                price: 89.00,
+                originalPrice: 120.00,
+                onSale: true,
+                discountBadge: "25% OFF",
+                description: "Monitoreo de salud, pantalla AMOLED brillante y amplia batería.",
+                image: "https://xiaomistore.com.sv/wp-content/uploads/watch20620active20negro.webp"
+            },
+            {
+                id: 17,
+                name: "Apple Watch Series 9",
+                category: "smartwatch",
+                price: 420.00,
+                originalPrice: 420.00,
+                onSale: false,
+                description: "Gesto de doble toque, chip S9 ultra rápido y pantalla Always-On brillante.",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoYICHXTVo5X9kAu5bmrnqqotWPE-CcsFVi2FmizVAKQ&s=10"
+            },
+            {
+                id: 18,
+                name: "Samsung Galaxy Watch 6",
+                category: "smartwatch",
+                price: 299.00,
+                originalPrice: 299.00,
+                onSale: false,
+                description: "Análisis avanzado del sueño, seguimiento de composición corporal y Wear OS.",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBWPeCx39zvELrhwH2dQ1fVhPqg73t2MRm6UicZwYTiw&s=10"
+            },
+            {
+                id: 19,
+                name: "Garmin Forerunner 255",
+                category: "smartwatch",
+                price: 350.00,
+                originalPrice: 350.00,
+                onSale: false,
+                description: "Reloj deportivo con GPS multibanda, sugerencias de entrenamiento y métricas HRV.",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREDDvED3pfRMkJ6VYskKR2DuaHrN_49c0EKVVO3bSA1Q&s=10"
+            },
+            {
+                id: 20,
+                name: "Amazfit GTS 4",
+                category: "smartwatch",
+                price: 180.00,
+                originalPrice: 180.00,
+                onSale: false,
+                description: "GPS de alta precisión, más de 150 modos deportivos y resistencia al agua 5 ATM.",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2ztOIuXG91ji2HlF0U7wuK2DNlh94ErqFcKvBKDTBjg&s=10"
+            },
+
+            // --- TABLETS ---
+            {
+                id: 21,
+                name: "Amazon Fire HD 8 2024",
+                category: "Tablets",
+                price: 150.00,
+                originalPrice: 150.00,
+                onSale: false,
+                description: "Tablet compacta ideal para lectura, streaming y juegos ligeros.",
+                image: "https://soytechno.com/wp-content/uploads/2025/03/Amazon-Fire-HD-8-2024-32GB-Black-2.jpg"
+            },
+            {
+                id: 22,
+                name: "REDMI Pad 2",
+                category: "Tablets",
+                price: 149.00,
+                originalPrice: 200.00,
+                onSale: true,
+                discountBadge: "25% OFF",
+                description: "Pantalla fluida de 90Hz, chasis metálico elegante y altavoces cuádruples.",
+                image: "https://xiaomistore.com.sv/wp-content/uploads/REDMI20PAD20220GRAY.webp"
+            },
+            {
+                id: 23,
+                name: "iPad Air M2",
+                category: "Tablets",
+                price: 599.00,
+                originalPrice: 599.00,
+                onSale: false,
+                description: "Rendimiento impresionante con el chip M2 de Apple, compatible con Apple Pencil Pro.",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQS5GX53QHg7sXB83R16neRG8Ycq4Ps_t39MTDhE1NVrw&s=10"
+            },
+            {
+                id: 24,
+                name: "Samsung Galaxy Tab S9",
+                category: "Tablets",
+                price: 799.00,
+                originalPrice: 799.00,
+                onSale: false,
+                description: "Pantalla Dynamic AMOLED 2X, S Pen incluido y resistencia al agua IP68.",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZtJu41JYxDR7p9_SGpSQYpT-D4ff92eB9eFAS_0JymYMd4Ma7Kp-xexhI&s=10"
+            },
+            {
+                id: 25,
+                name: "Lenovo Tab P11 Pro",
+                category: "Tablets",
+                price: 340.00,
+                originalPrice: 340.00,
+                onSale: false,
+                description: "Pantalla OLED 2.5K, sistema de 4 parlantes JBL y excelente modo productividad.",
+                image: "https://m.media-amazon.com/images/I/41HIcbetn3L._AC_UF1000,1000_QL80_.jpg"
+            }
+        ];
+
+        // Asegurar que cualquier producto Redmi siempre esté en oferta
+        products.forEach(p => {
+            if (p.name.toLowerCase().includes('redmi')) {
+                p.onSale = true;
+                if (!p.discountBadge) p.discountBadge = "OFERTA REDMI";
+            }
+        });
+
+        const categories = [
+            { id: "all", name: "Todos" },
+            { id: "laptops", name: "Laptops" },
+            { id: "smartphones", name: "Smartphones" },
+            { id: "audifonos", name: "Audífonos" },
+            { id: "smartwatch", name: "Smartwatches" },
+            { id: "Tablets", name: "Tablets" }
+        ];
+
+        // ESTADO GLOBAL
+        let cart = [];
+        let activeCategory = "all";
+        let searchQuery = "";
+        let registeredUser = null;
+        let currentSlideIndex = 0;
+        let offerProductsList = [];
+        let autoplayTimer = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            offerProductsList = products.filter(p => p.onSale || p.name.toLowerCase().includes('redmi'));
+            renderOfferCarousel();
+            startCarouselAutoplay();
+
+            renderCategories();
+            renderProducts();
+            updateCartUI();
+            lucide.createIcons();
+        });
+
+        // NAVEGACIÓN
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        function setActiveNav(navId) {
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.remove('text-indigo-400', 'bg-slate-700/70', 'shadow-sm');
+                el.classList.add('text-slate-300');
+            });
+            const active = document.getElementById(navId);
+            if (active) {
+                active.classList.add('text-indigo-400', 'bg-slate-700/70', 'shadow-sm');
+                active.classList.remove('text-slate-300');
+            }
+        }
+
+        // LÓGICA DEL CARRUSEL DE PRODUCTOS EN OFERTA
+        function renderOfferCarousel() {
+            const track = document.getElementById('offerCarouselTrack');
+            const dotsContainer = document.getElementById('carouselDots');
+
+            if (!offerProductsList || offerProductsList.length === 0) return;
+
+            track.innerHTML = offerProductsList.map((product) => `
+                <div class="min-w-full flex-shrink-0 px-2 flex flex-col md:flex-row items-center gap-8 p-2">
+                    <div class="relative w-full md:w-1/2 h-64 sm:h-80 bg-slate-900/90 rounded-2xl overflow-hidden border border-slate-700/60 group-hover:border-indigo-500/50 transition-all flex items-center justify-center p-4">
+                        <img src="${product.image}" alt="${product.name}" 
+                             onerror="this.src='https://placehold.co/500x300/1e293b/ffffff?text=${encodeURIComponent(product.name)}'"
+                             class="max-h-full max-w-full object-contain transition-transform duration-500 hover:scale-105">
+                        
+                        <span class="absolute top-4 left-4 bg-gradient-to-r from-pink-600 to-indigo-600 text-white text-xs font-black px-3.5 py-1.5 rounded-full uppercase tracking-wider shadow-lg flex items-center gap-1.5">
+                            <i data-lucide="tag" class="w-3.5 h-3.5"></i> ${product.discountBadge || 'OFERTA REDMI'}
+                        </span>
+                    </div>
+
+                    <div class="w-full md:w-1/2 space-y-4 text-left">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold text-indigo-400 uppercase tracking-widest bg-indigo-500/10 px-3 py-1 rounded-md border border-indigo-500/20">
+                                Categoría: ${product.category}
+                            </span>
+                        </div>
+
+                        <h3 class="text-2xl sm:text-3xl font-black text-white leading-snug">
+                            ${product.name}
+                        </h3>
+
+                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                            ${product.description}
+                        </p>
+
+                        <div class="pt-2 flex items-baseline gap-4">
+                            <span class="text-3xl sm:text-4xl font-black text-emerald-400">$${product.price.toFixed(2)}</span>
+                            ${product.originalPrice > product.price ? `
+                                <span class="text-base font-semibold text-slate-500 line-through">$${product.originalPrice.toFixed(2)}</span>
+                            ` : ''}
+                        </div>
+
+                        <div class="pt-2">
+                            <button onclick="addToCart(${product.id})" class="w-full sm:w-auto bg-gradient-to-r from-pink-600 via-indigo-600 to-indigo-700 hover:from-pink-500 hover:to-indigo-600 text-white font-bold py-3.5 px-8 rounded-xl transition-all shadow-xl shadow-indigo-600/30 flex items-center justify-center gap-2.5 text-sm active:scale-95">
+                                <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                                <span>Añadir Oferta al Carrito</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            dotsContainer.innerHTML = offerProductsList.map((_, idx) => `
+                <button onclick="goToOfferSlide(${idx})" aria-label="Ir a diapositiva ${idx + 1}"
+                    class="h-2.5 rounded-full transition-all duration-300 ${idx === currentSlideIndex ? 'w-8 bg-pink-500' : 'w-2.5 bg-slate-700 hover:bg-slate-600'}">
+                </button>
+            `).join('');
+
+            updateCarouselPosition();
+            lucide.createIcons();
+        }
+
+        function updateCarouselPosition() {
+            const track = document.getElementById('offerCarouselTrack');
+            if (track) {
+                track.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+            }
+            const dots = document.getElementById('carouselDots')?.children;
+            if (dots) {
+                Array.from(dots).forEach((dot, idx) => {
+                    if (idx === currentSlideIndex) {
+                        dot.className = 'h-2.5 w-8 bg-pink-500 rounded-full transition-all duration-300';
+                    } else {
+                        dot.className = 'h-2.5 w-2.5 bg-slate-700 hover:bg-slate-600 rounded-full transition-all duration-300';
+                    }
+                });
+            }
+        }
+
+        function nextOfferSlide() {
+            currentSlideIndex = (currentSlideIndex + 1) % offerProductsList.length;
+            updateCarouselPosition();
+            resetCarouselAutoplay();
+        }
+
+        function prevOfferSlide() {
+            currentSlideIndex = (currentSlideIndex - 1 + offerProductsList.length) % offerProductsList.length;
+            updateCarouselPosition();
+            resetCarouselAutoplay();
+        }
+
+        function goToOfferSlide(index) {
+            currentSlideIndex = index;
+            updateCarouselPosition();
+            resetCarouselAutoplay();
+        }
+
+        function startCarouselAutoplay() {
+            autoplayTimer = setInterval(() => {
+                if (offerProductsList.length > 0) {
+                    currentSlideIndex = (currentSlideIndex + 1) % offerProductsList.length;
+                    updateCarouselPosition();
+                }
+            }, 4500);
+        }
+
+        function resetCarouselAutoplay() {
+            if (autoplayTimer) clearInterval(autoplayTimer);
+            startCarouselAutoplay();
+        }
+
+        // CATEGORÍAS Y RENDER DE CATÁLOGO
+        function renderCategories() {
+            const container = document.getElementById('categoryButtons');
+            container.innerHTML = categories.map(cat => `
+                <button onclick="filterCategory('${cat.id}')" 
+                    class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap ${
+                        activeCategory === cat.id 
+                        ? 'bg-gradient-to-r from-indigo-600 to-pink-600 text-white shadow-md shadow-indigo-600/30 scale-105' 
+                        : 'bg-slate-800 text-slate-300 hover:bg-slate-700/70 border border-slate-700'
+                    }">
+                    ${cat.name}
+                </button>
+            `).join('');
+        }
+
+        function filterCategory(catId) {
+            activeCategory = catId;
+            renderCategories();
+            renderProducts();
+        }
+
+        function handleSearch() {
+            searchQuery = document.getElementById('searchInput').value.toLowerCase();
+            renderProducts();
+        }
+
+        function handleSearchMobile() {
+            searchQuery = document.getElementById('searchInputMobile').value.toLowerCase();
+            renderProducts();
+        }
+
+        // RENDERIZAR GRID PRODUCTOS
+        function renderProducts() {
+            const container = document.getElementById('productGrid');
+            const noResults = document.getElementById('noResults');
+
+            const filtered = products.filter(p => {
+                const matchesCat = activeCategory === 'all' || p.category === activeCategory;
+                const matchesSearch = p.name.toLowerCase().includes(searchQuery) || p.description.toLowerCase().includes(searchQuery);
+                return matchesCat && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            noResults.classList.add('hidden');
+            container.innerHTML = filtered.map(product => `
+                <div class="bg-slate-800/80 border border-slate-700/60 rounded-2xl overflow-hidden hover:border-indigo-500/50 transition-all duration-300 hover:shadow-2xl flex flex-col group hover:-translate-y-1">
+                    <div class="relative overflow-hidden h-48 bg-slate-900 p-3 flex items-center justify-center">
+                        <img src="${product.image}" alt="${product.name}" 
+                             onerror="this.src='https://placehold.co/500x300/1e293b/ffffff?text=${encodeURIComponent(product.name)}'"
+                             class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500">
+                        
+                        <span class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md border border-slate-700/50 text-indigo-400 text-xs px-2.5 py-1 rounded-full capitalize font-bold">
+                            ${product.category}
+                        </span>
+
+                        ${product.onSale ? `
+                            <span class="absolute top-3 right-3 bg-gradient-to-r from-pink-600 to-rose-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider shadow-md">
+                                Oferta
+                            </span>
+                        ` : ''}
+                    </div>
+
+                    <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+                        <div>
+                            <h3 class="font-bold text-slate-100 text-lg group-hover:text-indigo-400 transition-colors line-clamp-1">${product.name}</h3>
+                            <p class="text-slate-400 text-xs mt-1.5 line-clamp-2 leading-relaxed">${product.description}</p>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-3 border-t border-slate-700/50">
+                            <div>
+                                <span class="text-[10px] text-slate-400 uppercase font-semibold block">Precio</span>
+                                <div class="flex items-baseline gap-1.5">
+                                    <span class="text-xl font-black text-white">$${product.price.toFixed(2)}</span>
+                                    ${product.originalPrice > product.price ? `
+                                        <span class="text-xs text-slate-500 line-through">$${product.originalPrice.toFixed(2)}</span>
+                                    ` : ''}
+                                </div>
+                            </div>
+                            <button onclick="addToCart(${product.id})" class="bg-gradient-to-r from-indigo-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 text-white px-3 py-2 rounded-xl transition-all shadow-md shadow-indigo-600/20 active:scale-95 flex items-center gap-1.5 text-xs font-bold">
+                                <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                                <span>Comprar</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            lucide.createIcons();
+        }
+
+        // GESTIÓN CARRITO
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const itemInCart = cart.find(item => item.id === productId);
+
+            if (itemInCart) {
+                itemInCart.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            updateCartUI();
+            showToast(`Añadido al carrito: ${product.name}`);
+        }
+
+        function updateQuantity(productId, delta) {
+            const item = cart.find(i => i.id === productId);
+            if (!item) return;
+
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.id !== productId);
+            }
+
+            updateCartUI();
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(i => i.id !== productId);
+            updateCartUI();
+            showToast("Producto eliminado del carrito");
+        }
+
+        function updateCartUI() {
+            const badge = document.getElementById('cartBadge');
+            const container = document.getElementById('cartItemsContainer');
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+            if (totalCount > 0) {
+                badge.innerText = totalCount;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16 text-slate-400 space-y-2">
+                        <i data-lucide="shopping-cart" class="w-12 h-12 mx-auto stroke-1 text-slate-600"></i>
+                        <p class="text-sm font-semibold">Tu carrito está vacío</p>
+                        <p class="text-xs text-slate-500">Agrega productos en oferta o del catálogo.</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = cart.map(item => `
+                    <div class="flex items-center gap-3 bg-slate-800/60 p-3 rounded-2xl border border-slate-700/60">
+                        <img src="${item.image}" alt="${item.name}" class="w-14 h-14 object-contain rounded-xl bg-slate-700/50 p-1">
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-xs font-bold text-slate-100 truncate">${item.name}</h4>
+                            <p class="text-xs text-indigo-400 font-extrabold mt-0.5">$${(item.price * item.quantity).toFixed(2)}</p>
+                            
+                            <div class="flex items-center gap-2 mt-2">
+                                <button onclick="updateQuantity(${item.id}, -1)" class="w-6 h-6 rounded-md bg-slate-700 hover:bg-slate-600 flex items-center justify-center text-xs text-slate-200 font-bold">-</button>
+                                <span class="text-xs font-bold text-slate-200 w-4 text-center">${item.quantity}</span>
+                                <button onclick="updateQuantity(${item.id}, 1)" class="w-6 h-6 rounded-md bg-slate-700 hover:bg-slate-600 flex items-center justify-center text-xs text-slate-200 font-bold">+</button>
+                            </div>
+                        </div>
+                        <button onclick="removeFromCart(${item.id})" class="text-slate-500 hover:text-red-400 p-1 transition-colors">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const tax = subtotal * 0.13;
+            const total = subtotal + tax;
+
+            document.getElementById('cartSubtotal').innerText = `$${subtotal.toFixed(2)}`;
+            document.getElementById('cartTax').innerText = `$${tax.toFixed(2)}`;
+            document.getElementById('cartTotal').innerText = `$${total.toFixed(2)}`;
+
+            lucide.createIcons();
+        }
+
+        // DRAWER CARRITO
+        function toggleCartDrawer(open) {
+            const drawer = document.getElementById('cartDrawer');
+            const panel = document.getElementById('cartPanel');
+            const overlay = document.getElementById('cartOverlay');
+
+            if (open) {
+                drawer.classList.remove('hidden');
+                setTimeout(() => {
+                    panel.classList.remove('translate-x-full');
+                    overlay.classList.remove('opacity-0');
+                }, 10);
+            } else {
+                panel.classList.add('translate-x-full');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => {
+                    drawer.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        // CHECKOUT
+        function checkout() {
+            if (cart.length === 0) {
+                showToast("Tu carrito está vacío", "alert-circle");
+                return;
+            }
+
+            if (!registeredUser) {
+                showToast("Por favor regístrate antes de pagar", "user");
+                toggleCartDrawer(false);
+                toggleRegisterModal(true);
+                return;
+            }
+
+            generateReceiptModal();
+            toggleCartDrawer(false);
+        }
+
+        function generateReceiptModal() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('es-ES') + ' ' + now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+            const invoiceNo = '#INV-' + Math.floor(100000 + Math.random() * 900000);
+
+            document.getElementById('receiptInvoiceNo').innerText = invoiceNo;
+            document.getElementById('receiptDate').innerText = dateStr;
+
+            document.getElementById('receiptClientName').innerText = registeredUser.name;
+            document.getElementById('receiptClientEmail').innerText = registeredUser.email;
+            document.getElementById('receiptClientPhone').innerText = registeredUser.phone;
+            document.getElementById('receiptClientAddress').innerText = registeredUser.address;
+
+            const tbody = document.getElementById('receiptTableBody');
+            tbody.innerHTML = cart.map(item => `
+                <tr>
+                    <td class="p-3 font-semibold text-slate-100">${item.name}</td>
+                    <td class="p-3 text-center">${item.quantity}</td>
+                    <td class="p-3 text-right">$${item.price.toFixed(2)}</td>
+                    <td class="p-3 text-right font-bold text-indigo-300">$${(item.price * item.quantity).toFixed(2)}</td>
+                </tr>
+            `).join('');
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const tax = subtotal * 0.13;
+            const total = subtotal + tax;
+
+            document.getElementById('receiptSubtotal').innerText = `$${subtotal.toFixed(2)}`;
+            document.getElementById('receiptTax').innerText = `$${tax.toFixed(2)}`;
+            document.getElementById('receiptTotal').innerText = `$${total.toFixed(2)}`;
+
+            document.getElementById('receiptModal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeReceiptModal() {
+            document.getElementById('receiptModal').classList.add('hidden');
+            cart = [];
+            updateCartUI();
+            showToast("¡Gracias por tu compra en 241 Tech Zone!", "check-circle-2");
+        }
+
+        // REGISTRO
+        function toggleRegisterModal(open) {
+            const modal = document.getElementById('registerModal');
+            if (open) {
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
+                document.getElementById('registerError').classList.add('hidden');
+            }
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const pass = document.getElementById('regPass').value;
+            const passConfirm = document.getElementById('regPassConfirm').value;
+            const phone = document.getElementById('regPhone').value.trim();
+            const address = document.getElementById('regAddress').value.trim();
+            const errorDiv = document.getElementById('registerError');
+
+            if (pass !== passConfirm) {
+                errorDiv.innerText = "Las contraseñas no coinciden.";
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+
+            registeredUser = { name, email, phone, address };
+            document.getElementById('userAccountText').innerText = name.split(' ')[0];
+            
+            toggleRegisterModal(false);
+            showToast(`¡Bienvenido/a, ${name.split(' ')[0]}!`, "user-check");
+            
+            document.getElementById('registerForm').reset();
+            errorDiv.classList.add('hidden');
+        }
+
+        // TOAST
+        function showToast(message, iconName = "check-circle") {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastMsg.innerText = message;
+            toastIcon.setAttribute('data-lucide', iconName);
+            lucide.createIcons();
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
